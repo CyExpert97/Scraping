@@ -30,8 +30,7 @@ class LOLScraper:
             # role = item.find_element_by_xpath('//div[@class="champion-role"]/*/title').text
             # //*[@id="scroll-view-main"]/div/div/div/div[1]/div[2]/div[2]/div[2]/div/div/div[1]/div[2]
             role = item.find_element_by_xpath("div[2]/*[local-name()='svg']/*[local-name()='title']").get_attribute('innerHTML')
-            # name = item.find_element_by_xpath('div/span').text
-            name = "Jhin"
+            name = item.find_element_by_xpath('div/span').text
             img = item.find_element_by_xpath('div/img').get_attribute('src')
             win_rate = item.find_element_by_xpath('div/p').text
             champion_ban_rate = item.find_element_by_xpath('div[5]').text
@@ -66,11 +65,34 @@ class LOLScraper:
                 print(f"{Base_AS}")
                 Bonus_AS = item_2.find_element_by_xpath('//*[@id="mw-content-text"]/div/div[8]/aside/section[2]/section[2]/section/div[2]').text
                 print(f"{Bonus_AS}")
-                # if (//*[@id="mw-content-text"]/div/div[8]/aside/section[1]/section[1]/section/div[2]/div/a[1]) = 
-                #     Mana = item_2.find_element_by_id('ResourceBar_{}_1v1'.format(name)).text
-                #     print(f'Mana: {Mana}')
-                #     Mana_regen = item_2.find_element_by_id('ResourceRegen_{}_lvl'.format(name)).text
-                #     print(f"Mana_regen: {Mana_regen}")
+                
+                try:
+                    resource_bar = item_2.find_element_by_id('ResourceBar_{}_lvl'.format(name))
+                except:
+                    resource_bar = []
+
+                try:
+                    resource_regen = item_2.find_element_by_id('ResourceRegen_{}_lvl'.format(name))
+                except:
+                    resource_regen = []
+                
+                try:
+                    resource_bar_2 = item_2.find_element_by_id('ResourceBar_{}_lvl'.format(name))
+                except:
+                    resource_bar_2 = []
+                
+                if resource_bar !=[] and resource_regen !=[]:
+                    Mana = item_2.find_element_by_id('ResourceBar_{}_lvl'.format(name)).text
+                    print(f'Mana: {Mana}')
+                    Mana_regen = item_2.find_element_by_id('ResourceRegen_{}_lvl'.format(name)).text
+                    print(f"Mana_regen: {Mana_regen}")
+                elif resource_bar_2 !=[]:
+                    Energy = item_2.find_element_by_id('ResourceBar_{}'.format(name)).text
+                    print(f'Energy: {Energy}')
+                    Energy_regen = 50
+                    print(f'Energy_regen: {Energy_regen}')
+                else:
+                    print('Manaless')
             
                 ex = {
                     'Role of champion': role,
@@ -79,7 +101,16 @@ class LOLScraper:
                     'Win rate of champion': win_rate,
                     'Ban rate of champion': champion_ban_rate,
                     'Pick rate of champion': champion_pick_rate,
-                    'Champion Health': Health
+                    'Champion Health': Health,
+                    'Champion Health Regen': Health_regen,
+                    'Champion Armor': Armor,
+                    'Champion Magic Resist': Magic_resist,
+                    'Champion Move Speed': Move_speed,
+                    'Champion Attack Damage':Attack_damage,
+                    'Champion Crit Damage':Crit_damage,
+                    'Champion Attack Range': Attack_range,
+                    'Champion Base Attack Speed': Base_AS,
+                    'Champion Bonus Attack Speed Per Level': Bonus_AS
                 }
                 
                 df = df.append(ex, ignore_index=True)
