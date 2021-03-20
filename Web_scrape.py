@@ -30,7 +30,8 @@ class LOLScraper:
             # role = item.find_element_by_xpath('//div[@class="champion-role"]/*/title').text
             # //*[@id="scroll-view-main"]/div/div/div/div[1]/div[2]/div[2]/div[2]/div/div/div[1]/div[2]
             role = item.find_element_by_xpath("div[2]/*[local-name()='svg']/*[local-name()='title']").get_attribute('innerHTML')
-            name = item.find_element_by_xpath('div/span').text
+            # name = item.find_element_by_xpath('div/span').text
+            name = "Cho'Gath"
             img = item.find_element_by_xpath('div/img').get_attribute('src')
             win_rate = item.find_element_by_xpath('div/p').text
             champion_ban_rate = item.find_element_by_xpath('div[5]').text
@@ -42,57 +43,63 @@ class LOLScraper:
             sleep(5)
             driver_wiki.find_element_by_class_name('NN0_TB_DIsNmMHgJWgT7U.XHcr6qf5Sub2F2zBJ53S_').click()
             sleep(10)
-            items_2 = driver_wiki.find_elements_by_xpath("//*[@id='mw-content-text']/div/div[8]/aside")
-            for item_2 in items_2:
-                Health = item_2.find_element_by_id('Health_{}_lvl'.format(name)).text
-                print(f'Health: {Health}')
-                Health_regen = item_2.find_element_by_id('HealthRegen_{}_lvl'.format(name)).text
-                print(f'Health_regen: {Health_regen}')
-                Armor = item_2.find_element_by_id('Armor_{}_lvl'.format(name)).text
-                print(f"Armor: {Armor}")
-                Magic_resist = item_2.find_element_by_id('MagicResist_{}_lvl'.format(name)).text
-                print(f"Magic_resist: {Magic_resist}")
-                Move_speed = item_2.find_element_by_id('MovementSpeed_{}'.format(name)).text
-                print(f"Move_speed: {Move_speed}")
-                Attack_damage = item_2.find_element_by_id('AttackDamage_{}_lvl'.format(name)).text
-                print(f"Attack_damage: {Attack_damage}")
+            items_2 = driver_wiki.find_elements_by_class_name('pi-smart-group-body')
+                                                                
+            print(len(items_2))
+            for item in items_2:
+                print(item.text)
+            # for item_2 in items_2:
+            #     Health = item_2.find_elements_by_xpath("class=pi-smart-data-value pi-data-value pi-font pi-item-spacing").get
+            #     print(f'Health: {Health}')
+            #     Health_regen = item_2.find_element_by_id('HealthRegen_{}_lvl'.format(name)).text
+            #     print(f'Health_regen: {Health_regen}')
+            #     Armor = item_2.find_element_by_id('Armor_{}_lvl'.format(name)).text
+            #     print(f"Armor: {Armor}")
+            #     Magic_resist = item_2.find_element_by_id('MagicResist_{}_lvl'.format(name)).text
+            #     print(f"Magic_resist: {Magic_resist}")
+            #     Move_speed = item_2.find_element_by_id('MovementSpeed_{}'.format(name)).text
+            #     print(f"Move_speed: {Move_speed}")
+            #     Attack_damage = item_2.find_element_by_id('AttackDamage_{}_lvl'.format(name)).text
+            #     print(f"Attack_damage: {Attack_damage}")
                 
-                Crit_damage = item_2.find_element_by_xpath('//*[@id="mw-content-text"]/div/div[8]/aside/section[1]/section[4]/section/div[2]').text
-                print(f"{Crit_damage}")
-                Attack_range = item_2.find_element_by_id('AttackRange_{}'.format(name)).text
-                print(f"Attack_range: {Attack_range}")
-                Base_AS = item_2.find_element_by_xpath('//*[@id="mw-content-text"]/div/div[8]/aside/section[2]/section[1]/section/div[1]').text
-                print(f"{Base_AS}")
-                Bonus_AS = item_2.find_element_by_xpath('//*[@id="mw-content-text"]/div/div[8]/aside/section[2]/section[2]/section/div[2]').text
-                print(f"{Bonus_AS}")
+            #     Crit_damage = item_2.find_element_by_xpath('//*[@id="mw-content-text"]/div/div[8]/aside/section[1]/section[4]/section/div[2]').text
+            #     print(f"{Crit_damage}")
+            #     Attack_range = item_2.find_element_by_id('AttackRange_{}'.format(name)).text
+            #     print(f"Attack_range: {Attack_range}")
+            #     Base_AS = item_2.find_element_by_xpath('//*[@id="mw-content-text"]/div/div[8]/aside/section[2]/section[1]/section/div[1]').text
+            #     print(f"{Base_AS}")
+            #     Bonus_AS = item_2.find_element_by_xpath('//*[@id="mw-content-text"]/div/div[8]/aside/section[2]/section[2]/section/div[2]').text
+            #     print(f"{Bonus_AS}")
                 
-                try:
-                    resource_bar = item_2.find_element_by_id('ResourceBar_{}_lvl'.format(name))
-                except:
-                    resource_bar = []
+            #     try:
+            #         resource_bar = item_2.find_element_by_id('ResourceBar_{}_lvl'.format(name))
+            #     except:
+            #         resource_bar = []
 
-                try:
-                    resource_regen = item_2.find_element_by_id('ResourceRegen_{}_lvl'.format(name))
-                except:
-                    resource_regen = []
+            #     try:
+            #         resource_regen = item_2.find_element_by_id('ResourceRegen_{}_lvl'.format(name))
+            #     except:
+            #         resource_regen = []
                 
-                try:
-                    resource_bar_2 = item_2.find_element_by_id('ResourceBar_{}_lvl'.format(name))
-                except:
-                    resource_bar_2 = []
+            #     try:
+            #         resource_bar_2 = item_2.find_element_by_id('ResourceBar_{}_lvl'.format(name))
+            #     except:
+            #         resource_bar_2 = []
                 
-                if resource_bar !=[] and resource_regen !=[]:
-                    Mana = item_2.find_element_by_id('ResourceBar_{}_lvl'.format(name)).text
-                    print(f'Mana: {Mana}')
-                    Mana_regen = item_2.find_element_by_id('ResourceRegen_{}_lvl'.format(name)).text
-                    print(f"Mana_regen: {Mana_regen}")
-                elif resource_bar_2 !=[]:
-                    Energy = item_2.find_element_by_id('ResourceBar_{}'.format(name)).text
-                    print(f'Energy: {Energy}')
-                    Energy_regen = 50
-                    print(f'Energy_regen: {Energy_regen}')
-                else:
-                    print('Manaless')
+            #     if resource_bar !=[] and resource_regen !=[]:
+            #         Resource = item_2.find_element_by_id('ResourceBar_{}_lvl'.format(name)).text
+            #         print(f'Mana: {Resource}')
+            #         Resource_regen = item_2.find_element_by_id('ResourceRegen_{}_lvl'.format(name)).text
+            #         print(f"Mana_regen: {Resource_regen}")
+            #     elif resource_bar_2 !=[]:
+            #         Resource = item_2.find_element_by_id('ResourceBar_{}'.format(name)).text
+            #         print(f'Energy: {Resource}')
+            #         Resource_regen = 50
+            #         print(f'Energy_regen: {Resource_regen}')
+            #     else:
+            #         Resource = "Manaless"
+            #         Resource_regen = "Manaless"
+            #         print(f'{Resource}')
             
                 ex = {
                     'Role of champion': role,
@@ -101,16 +108,19 @@ class LOLScraper:
                     'Win rate of champion': win_rate,
                     'Ban rate of champion': champion_ban_rate,
                     'Pick rate of champion': champion_pick_rate,
-                    'Champion Health': Health,
-                    'Champion Health Regen': Health_regen,
-                    'Champion Armor': Armor,
-                    'Champion Magic Resist': Magic_resist,
-                    'Champion Move Speed': Move_speed,
-                    'Champion Attack Damage':Attack_damage,
-                    'Champion Crit Damage':Crit_damage,
-                    'Champion Attack Range': Attack_range,
-                    'Champion Base Attack Speed': Base_AS,
-                    'Champion Bonus Attack Speed Per Level': Bonus_AS
+                    # 'Champion Health': Health,
+                    # 'Champion Health Regen': Health_regen,
+                    # 'Champion Armor': Armor,
+                    # 'Champion Magic Resist': Magic_resist,
+                    # 'Champion Move Speed': Move_speed,
+                    # 'Champion Attack Damage':Attack_damage,
+                    # 'Champion Crit Damage':Crit_damage,
+                    # 'Champion Attack Range': Attack_range,
+                    # 'Champion Base Attack Speed': Base_AS,
+                    # 'Champion Bonus Attack Speed Per Level': Bonus_AS,
+                    # 'Champion Resource': Resource,
+                    # 'Champion Respurce Regen': Resource_regen
+
                 }
                 
                 df = df.append(ex, ignore_index=True)
@@ -119,13 +129,10 @@ class LOLScraper:
             driver_wiki.quit()
             break
             df.to_csv('data.csv')
-            #To get lol wiki champion stats. Get the champion name and paste it into the url e.g "https://leagueoflegends.fandom.com/wiki/{Kassadin}/LoL"
+            
 
         driver_stats.quit()
 # %%
 lol_scraper = LOLScraper()
 lol_scraper.get_stats()
 # %%
-# Things to do:
-#   Not all champions have mana so find how to differentiate between them 
-#   Find a way to click on accept cookies to get data
