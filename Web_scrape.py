@@ -11,14 +11,15 @@ class LOLScraper:
 
     def get_stats(self):
         pass
+        # chrome_options = Options()
+        # chrome_options.add_argument("C:\Users\j_theocharides\AppData\Local\Google\Chrome\User Data")
+        # driver_1 = webdriver.Chrome(chrome_options= chrome_options,executable_path='./chromedriver')
+        driver_stats = webdriver.Chrome('./chromedriver')
 
-        driver_1 = webdriver.Chrome('./chromedriver')
-
-
-        driver_1.get('https://blitz.gg/lol/champions/overview')
+        driver_stats.get('https://blitz.gg/lol/champions/overview')
         #%%
         sleep(10)
-        items = driver_1.find_elements_by_xpath("//div[contains(@class,'champion-row')]")
+        items = driver_stats.find_elements_by_xpath("//div[contains(@class,'champion-row')]")
         # items = driver.find_elements_by_xpath('//*[@id="scroll-view-main"]/div/div/div/div[1]/div[2]/div[2]/div[2]/div/div/div')
         # //*[@id="scroll-view-main"]/div/div/div/div[1]/div/div[2]/div[2]/div/div/div[1]
         print(len(items))
@@ -36,36 +37,36 @@ class LOLScraper:
             champion_pick_rate = item.find_element_by_xpath('div[6]').text
             print(name)
 
-            driver_2 = webdriver.Chrome('./chromedriver')
-            driver_2.get('https://leagueoflegends.fandom.com/wiki/{}/LoL'.format(name))
+            driver_wiki = webdriver.Chrome('./chromedriver')
+            driver_wiki.get('https://leagueoflegends.fandom.com/wiki/{}/LoL'.format(name))
+            driver_wiki.find_element_by_xpath('/html/body/div[6]/div/div/div[2]/div[2]').click()
             sleep(10)
-            items_2 = driver_2.find_elements_by_xpath("//*[@id='mw-content-text']/div/div[8]/aside")
+            items_2 = driver_wiki.find_elements_by_xpath("//*[@id='mw-content-text']/div/div[8]/aside")
             for item_2 in items_2:
-                Health = item_2.find_element_by_xpath('section/section/section/div/span[2]').text
-                print(Health)
-                Mana = item_2.find_element_by_xpath('section/section/section/div[2]/span[2]').text
-                print(Mana)
+                Health = item_2.find_element_by_id('Health_{}_lvl'.format(name)).text
+                print(f'Health: {Health}')
                 Health_regen = item_2.find_element_by_id('HealthRegen_{}_lvl'.format(name)).text
-                print(Health_regen)
+                print(f'Health_regen: {Health_regen}')
                 Armor = item_2.find_element_by_id('Armor_{}_lvl'.format(name)).text
-                print(Armor)
+                print(f"Armor: {Armor}")
                 Magic_resist = item_2.find_element_by_id('MagicResist_{}_lvl'.format(name)).text
-                print(Magic_resist)
-                Move_speed = item_2.find_element_by_id('MoveSpeed_{}_lvl'.format(name)).text
-                print(Move_speed)
-                Mana_regen = item_2.find_element_by_id('ManaRegen_{}_lvl'.format(name)).text
-                print(Mana_regen)
+                print(f"Magic_resist: {Magic_resist}")
+                Move_speed = item_2.find_element_by_id('MovementSpeed_{}'.format(name)).text
+                print(f"Move_speed: {Move_speed}")
                 Attack_damage = item_2.find_element_by_id('AttackDamage_{}_lvl'.format(name)).text
-                print(Attack_damage)
+                print(f"Attack_damage: {Attack_damage}")
                 Crit_damage = item_2.find_element_by_id('CritDamage_{}_lvl'.format(name)).text
-                print(Crit_damage)
+                print(f"Crit_damage: {Crit_damage}")
                 Attack_range = item_2.find_element_by_id('AttackRange_{}_lvl'.format(name)).text
-                print(Attack_range)
+                print(f"Attack_range: {Attack_range}")
                 Base_AS = item_2.find_element_by_id('BaseAS_{}_lvl'.format(name)).text
-                print(Base_AS)
+                print(f"Base_AS: {Base_AS}")
                 Bonus_AS = item_2.find_element_by_id('BonusAS_{}_lvl'.format(name)).text
-                print(Bonus_AS)
-                
+                print(f"Bonus_AS: {Bonus_AS}")
+                Mana = item_2.find_element_by_xpath('section/section/section/div[2]/span[2]').text
+                print(f'Mana: {Mana}')
+                Mana_regen = item_2.find_element_by_id('ResourceRegen_{}_lvl'.format(name)).text
+                print(f"Mana_regen: {Mana_regen}")
             
                 ex = {
                     'Role of champion': role,
@@ -80,12 +81,16 @@ class LOLScraper:
                 df = df.append(ex, ignore_index=True)
                 # print(df)
                 break
-            driver_2.quit()
+            driver_wiki.quit()
             break
             df.to_csv('data.csv')
             #To get lol wiki champion stats. Get the champion name and paste it into the url e.g "https://leagueoflegends.fandom.com/wiki/{Kassadin}/LoL"
-#%%
-        driver_1.quit()
+
+        driver_stats.quit()
 # %%
 lol_scraper = LOLScraper()
 lol_scraper.get_stats()
+# %%
+# Things to do:
+#   Not all champions have mana so find how to differentiate between them 
+#   Find a way to click on accept cookies to get data
