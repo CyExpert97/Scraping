@@ -30,7 +30,8 @@ class LOLScraper:
             # role = item.find_element_by_xpath('//div[@class="champion-role"]/*/title').text
             # //*[@id="scroll-view-main"]/div/div/div/div[1]/div[2]/div[2]/div[2]/div/div/div[1]/div[2]
             role = item.find_element_by_xpath("div[2]/*[local-name()='svg']/*[local-name()='title']").get_attribute('innerHTML')
-            name = item.find_element_by_xpath('div/span').text
+            # name = item.find_element_by_xpath('div/span').text
+            name = "Jhin"
             img = item.find_element_by_xpath('div/img').get_attribute('src')
             win_rate = item.find_element_by_xpath('div/p').text
             champion_ban_rate = item.find_element_by_xpath('div[5]').text
@@ -39,7 +40,8 @@ class LOLScraper:
 
             driver_wiki = webdriver.Chrome('./chromedriver')
             driver_wiki.get('https://leagueoflegends.fandom.com/wiki/{}/LoL'.format(name))
-            driver_wiki.find_element_by_xpath('/html/body/div[6]/div/div/div[2]/div[2]').click()
+            sleep(5)
+            driver_wiki.find_element_by_class_name('NN0_TB_DIsNmMHgJWgT7U.XHcr6qf5Sub2F2zBJ53S_').click()
             sleep(10)
             items_2 = driver_wiki.find_elements_by_xpath("//*[@id='mw-content-text']/div/div[8]/aside")
             for item_2 in items_2:
@@ -55,18 +57,20 @@ class LOLScraper:
                 print(f"Move_speed: {Move_speed}")
                 Attack_damage = item_2.find_element_by_id('AttackDamage_{}_lvl'.format(name)).text
                 print(f"Attack_damage: {Attack_damage}")
-                Crit_damage = item_2.find_element_by_id('CritDamage_{}_lvl'.format(name)).text
-                print(f"Crit_damage: {Crit_damage}")
-                Attack_range = item_2.find_element_by_id('AttackRange_{}_lvl'.format(name)).text
+                
+                Crit_damage = item_2.find_element_by_xpath('//*[@id="mw-content-text"]/div/div[8]/aside/section[1]/section[4]/section/div[2]').text
+                print(f"{Crit_damage}")
+                Attack_range = item_2.find_element_by_id('AttackRange_{}'.format(name)).text
                 print(f"Attack_range: {Attack_range}")
-                Base_AS = item_2.find_element_by_id('BaseAS_{}_lvl'.format(name)).text
-                print(f"Base_AS: {Base_AS}")
-                Bonus_AS = item_2.find_element_by_id('BonusAS_{}_lvl'.format(name)).text
-                print(f"Bonus_AS: {Bonus_AS}")
-                Mana = item_2.find_element_by_xpath('section/section/section/div[2]/span[2]').text
-                print(f'Mana: {Mana}')
-                Mana_regen = item_2.find_element_by_id('ResourceRegen_{}_lvl'.format(name)).text
-                print(f"Mana_regen: {Mana_regen}")
+                Base_AS = item_2.find_element_by_xpath('//*[@id="mw-content-text"]/div/div[8]/aside/section[2]/section[1]/section/div[1]').text
+                print(f"{Base_AS}")
+                Bonus_AS = item_2.find_element_by_xpath('//*[@id="mw-content-text"]/div/div[8]/aside/section[2]/section[2]/section/div[2]').text
+                print(f"{Bonus_AS}")
+                # if (//*[@id="mw-content-text"]/div/div[8]/aside/section[1]/section[1]/section/div[2]/div/a[1]) = 
+                #     Mana = item_2.find_element_by_id('ResourceBar_{}_1v1'.format(name)).text
+                #     print(f'Mana: {Mana}')
+                #     Mana_regen = item_2.find_element_by_id('ResourceRegen_{}_lvl'.format(name)).text
+                #     print(f"Mana_regen: {Mana_regen}")
             
                 ex = {
                     'Role of champion': role,
