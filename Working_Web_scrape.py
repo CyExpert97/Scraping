@@ -11,27 +11,18 @@ class LOLScraper:
 
     def get_stats(self):
         pass
-        # chrome_options = Options()
-        # chrome_options.add_argument("C:\Users\j_theocharides\AppData\Local\Google\Chrome\User Data")
-        # driver_1 = webdriver.Chrome(chrome_options= chrome_options,executable_path='./chromedriver')
         driver_stats = webdriver.Chrome('./chromedriver')
 
         driver_stats.get('https://blitz.gg/lol/champions/overview')
         #%%
         sleep(10)
         items = driver_stats.find_elements_by_xpath("//div[contains(@class,'champion-row')]")
-        # items = driver.find_elements_by_xpath('//*[@id="scroll-view-main"]/div/div/div/div[1]/div[2]/div[2]/div[2]/div/div/div')
-        # //*[@id="scroll-view-main"]/div/div/div/div[1]/div/div[2]/div[2]/div/div/div[1]
         print(len(items))
         #%%
         df = pd.DataFrame()
-        # <div class="champion-role"><svg viewBox="0 0 32 32" class="createSvgIcon__Svg-sc-1l8xi8d-0 loXvaP"><title>role-mid</title><path d="M5.333 26.667v-4.364l16.97-16.97h4.364v4.364l-16.97 16.97h-4.364z"></path><path fill-opacity="0.4" d="M19.394 5.333l-3.879 3.879h-6.303v6.303l-3.879 3.879v-14.061h14.061zM12.606 26.667l3.879-3.879h6.303v-6.303l3.879-3.879v14.061h-14.061z"></path></svg></div>
         for item in items:
-            # role = item.find_element_by_xpath('//div[@class="champion-role"]/*/title').text
-            # //*[@id="scroll-view-main"]/div/div/div/div[1]/div[2]/div[2]/div[2]/div/div/div[1]/div[2]
             role = item.find_element_by_xpath("div[2]/*[local-name()='svg']/*[local-name()='title']").get_attribute('innerHTML')
             name = item.find_element_by_xpath('div/span').text
-            # name = "Cho'Gath"
             img = item.find_element_by_xpath('div/img').get_attribute('src')
             win_rate = item.find_element_by_xpath('div/p').text
             champion_ban_rate = item.find_element_by_xpath('div[5]').text
@@ -75,20 +66,23 @@ class LOLScraper:
                     break
                 except:
                     sleep(0.1)
+            #Class name for every row of the table (has 4 columns)
             items_2 = driver_wiki.find_elements_by_class_name('pi-smart-group-body')                                             
             print(len(items_2))
+            #Only giterating through relevant information to increase efficiency 
             for item in items_2[:7]:
+                #Splits items by line (is equal to columns)
                 it = item.text.split("\n")
+                #Only wanting columns of length > 4 since that has info we want
                 if len(it) > 3:
+                    #Columns 0 and 2 are category names and 1 and 3 are values
                     ex[it[0]] = it[1]
                     ex[it[2]] = it[3]
             df = df.append(ex, ignore_index=True)
             driver_wiki.quit()    
             print(ex)
         driver_stats.quit()
-        df.to_csv('data_test_1.csv')    
-                
-            
+        df.to_csv('data_test_2.csv')    
 
 # %%
 lol_scraper = LOLScraper()
