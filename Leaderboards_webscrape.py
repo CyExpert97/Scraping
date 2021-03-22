@@ -30,7 +30,7 @@ class LOLScraper:
         rank_4 = driver_ranks.find_element_by_xpath('/html/body/div[3]/div[3]/div[3]/div/div/div/div[1]/ul/li[4]/a').get_attribute('href')
         ex = {'Url of player': rank_4}
         df = df.append(ex, ignore_index=True)
-        rank_4 = driver_ranks.find_element_by_xpath('/html/body/div[3]/div[3]/div[3]/div/div/div/div[1]/ul/li[5]/a').get_attribute('href')
+        rank_5 = driver_ranks.find_element_by_xpath('/html/body/div[3]/div[3]/div[3]/div/div/div/div[1]/ul/li[5]/a').get_attribute('href')
         ex = {'Url of player': rank_5}
         df = df.append(ex, ignore_index=True)
         # Main loop of getting rest of top 95 players 
