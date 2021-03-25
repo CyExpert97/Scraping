@@ -17,7 +17,7 @@ class LOLScraper:
         #%%
         sleep(10)
         df = pd.DataFrame()
-        # Since top 4 players are not in the table we need to get there elements individualy
+        # Since top 5 players are not in the table we need to get there elements individualy
         rank_1 = driver_ranks.find_element_by_xpath('/html/body/div[3]/div[3]/div[3]/div/div/div/div[1]/ul/li[1]/a').get_attribute('href')
         ex = {'Url of player': rank_1}
         df = df.append(ex, ignore_index=True)
