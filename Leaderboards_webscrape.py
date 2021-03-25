@@ -1,4 +1,3 @@
-#%%
 import sys 
 from selenium import webdriver
 from time import sleep
@@ -14,7 +13,7 @@ class LOLChampionStatsScraper:
         driver_ranks = webdriver.Chrome('./chromedriver')
         
         driver_ranks.get('https://euw.op.gg/ranking/ladder/')
-        #%%
+        #Scraping from op.gg to get url for pro player webpages
         sleep(10)
         df = pd.DataFrame()
         # Since top 5 players are not in the table we need to get there elements individualy
@@ -33,7 +32,7 @@ class LOLChampionStatsScraper:
         rank_5 = driver_ranks.find_element_by_xpath('/html/body/div[3]/div[3]/div[3]/div/div/div/div[1]/ul/li[5]/a').get_attribute('href')
         ex = {'Url of player': rank_5}
         df = df.append(ex, ignore_index=True)
-        # Main loop of getting rest of top 95 players 
+        # Main loop of getting rest of top 95 players from table
         items = driver_ranks.find_elements_by_xpath("/html/body/div[3]/div[3]/div[3]/div/div/div/table/tbody/tr/td[2]/a")
         for item in items:
         
@@ -43,8 +42,7 @@ class LOLChampionStatsScraper:
         df.to_csv('top_100.csv')
         
         driver_ranks.quit()
-#%%
+
 lol_scraper = LOLChampionStatsScraper()
 lol_scraper.get_stats()
 
-#%%

@@ -1,4 +1,3 @@
-#%%
 import sys 
 from selenium import webdriver
 from time import sleep
@@ -10,16 +9,16 @@ class LOLLeaderboardScraper:
         pass
 
     def get_stats(self):
-        pass
         driver_stats = webdriver.Chrome('./chromedriver')
 
         driver_stats.get('https://blitz.gg/lol/champions/overview')
-        #%%
+        
         sleep(10)
+        # Scrappin from blitz.gg website to get champion info
         items = driver_stats.find_elements_by_xpath("//div[contains(@class,'champion-row')]")
-        print(len(items))
-        #%%
+        # Creating pandas dataframe to save code later
         df = pd.DataFrame()
+        # From bliz.gg search the table specifically for the info we want and save it to a dictionary
         for item in items:
             role = item.find_element_by_xpath("div[2]/*[local-name()='svg']/*[local-name()='title']").get_attribute('innerHTML')
             name = item.find_element_by_xpath('div/span').text
@@ -35,7 +34,6 @@ class LOLLeaderboardScraper:
                     'Ban rate of champion': champion_ban_rate,
                     'Pick rate of champion': champion_pick_rate
             }
-            print(name)
 
             driver_wiki = webdriver.Chrome('./chromedriver')
             driver_wiki.get('https://leagueoflegends.fandom.com/wiki/{}/LoL'.format(name))
@@ -63,7 +61,6 @@ class LOLLeaderboardScraper:
         driver_stats.quit()
         df.to_csv('data_test_2.csv')    
 
-# %%
+
 lol_scraper = LOLLeaderboardScraper()
 lol_scraper.get_stats()
-#%%
