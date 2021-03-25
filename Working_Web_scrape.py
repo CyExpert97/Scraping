@@ -5,7 +5,7 @@ from time import sleep
 import pandas as pd
 sys.path
 
-class LOLScraper:
+class LOLLeaderboardScraper:
     def __init__(self):
         pass
 
@@ -64,6 +64,6 @@ class LOLScraper:
         df.to_csv('data_test_2.csv')    
 
 # %%
-lol_scraper = LOLScraper()
+lol_scraper = LOLLeaderboardScraper()
 lol_scraper.get_stats()
 #%%

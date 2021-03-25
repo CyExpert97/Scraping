@@ -5,7 +5,7 @@ from time import sleep
 import pandas as pd
 sys.path
 
-class LOLScraper:
+class LOLChampionStatsScraper:
     def __init__(self):
         pass
 
@@ -44,7 +44,7 @@ class LOLScraper:
         
         driver_ranks.quit()
 #%%
-lol_scraper = LOLScraper()
+lol_scraper = LOLChampionStatsScraper()
 lol_scraper.get_stats()
 
 #%%
