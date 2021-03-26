@@ -34,7 +34,7 @@ class LOLLeaderboardScraper:
                     'Ban rate of champion': champion_ban_rate,
                     'Pick rate of champion': champion_pick_rate
             }
-
+            # Open new driver to LOL wiki page to get individual champion stats
             driver_wiki = webdriver.Chrome('./chromedriver')
             driver_wiki.get('https://leagueoflegends.fandom.com/wiki/{}/LoL'.format(name))
             while True:
@@ -43,16 +43,16 @@ class LOLLeaderboardScraper:
                     break
                 except:
                     sleep(0.1)
-            #Class name for every row of the table (has 4 columns)
+            # Class name for every row of the table (has 4 columns)
             items_2 = driver_wiki.find_elements_by_class_name('pi-smart-group-body')                                             
             print(len(items_2))
-            #Only giterating through relevant information to increase efficiency 
+            # Only giterating through relevant information to increase efficiency 
             for item in items_2[:7]:
-                #Splits items by line (is equal to columns)
+                # Splits items by line (is equal to columns)
                 it = item.text.split("\n")
-                #Only wanting columns of length > 4 since that has info we want
+                # Only wanting columns of length > 4 since that has info we want
                 if len(it) > 3:
-                    #Columns 0 and 2 are category names and 1 and 3 are values
+                    # Columns 0 and 2 are category names and 1 and 3 are values
                     ex[it[0]] = it[1]
                     ex[it[2]] = it[3]
             df = df.append(ex, ignore_index=True)

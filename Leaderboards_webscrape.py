@@ -13,7 +13,7 @@ class LOLChampionStatsScraper:
         driver_ranks = webdriver.Chrome('./chromedriver')
         
         driver_ranks.get('https://euw.op.gg/ranking/ladder/')
-        #Scraping from op.gg to get url for pro player webpages
+        # Scraping from op.gg to get url for pro player webpages
         sleep(10)
         df = pd.DataFrame()
         # Since top 5 players are not in the table we need to get there elements individualy
