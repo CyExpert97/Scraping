@@ -2,6 +2,8 @@ import sys
 from selenium import webdriver
 from time import sleep
 import pandas as pd
+# import urllib.request
+import requests
 sys.path
 
 class LOLLeaderboardScraper:
@@ -26,6 +28,11 @@ class LOLLeaderboardScraper:
             win_rate = item.find_element_by_xpath('div/p').text
             champion_ban_rate = item.find_element_by_xpath('div[5]').text
             champion_pick_rate = item.find_element_by_xpath('div[6]').text
+            # Below is used to save images locally
+            img_data = requests.get(img).content
+            with open(f'image_{name}.jpg', 'wb') as handler:
+                handler.write(img_data)
+
             ex = {
                     'Role of champion': role,
                     'Image of champion': img,
