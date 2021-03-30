@@ -13,7 +13,7 @@ class LOLChampionStatsScraper:
         
         self.driver_ranks.get('https://euw.op.gg/ranking/ladder/')
         # Scraping from op.gg to get url for pro player webpages
-        sleep(10)
+        sleep(5)
         df = pd.DataFrame()
         # Since top 5 players are not in the table we need to get there elements individualy
         rank_1 = self.driver_ranks.find_element_by_xpath('/html/body/div[3]/div[3]/div[3]/div/div/div/div[1]/ul/li[1]/a').get_attribute('href')
@@ -42,6 +42,7 @@ class LOLChampionStatsScraper:
         
         self.driver_ranks.quit()
 
-lol_scraper = LOLChampionStatsScraper()
-lol_scraper.get_stats()
+if __name__ == "__main__":
+    lol_scraper = LOLChampionStatsScraper()
+    lol_scraper.get_stats()
 
