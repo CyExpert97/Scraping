@@ -8,14 +8,14 @@ sys.path
 
 class LOLLeaderboardScraper:
     def __init__(self):
-        self.self.driver_stats = webdriver.Chrome('./chromedriver')
-        self.self.driver_stats.get('https://blitz.gg/lol/champions/overview')
+        self.driver_stats = webdriver.Chrome('./chromedriver')
+        self.driver_stats.get('https://blitz.gg/lol/champions/overview')
         self.df = pd.DataFrame()
-    def get_stats(self):
-        
-        sleep(10)
+
+    def get_stats(self):    
+        sleep(5)
         # Scrappin from blitz.gg website to get champion info
-        items = self.self.driver_stats.find_elements_by_xpath("//div[contains(@class,'champion-row')]")
+        items = self.driver_stats.find_elements_by_xpath("//div[contains(@class,'champion-row')]")
         # Creating pandas dataframe to save code later
         champions = []
         # From bliz.gg search the table specifically for the info we want and save it to a dictionary
@@ -40,8 +40,9 @@ class LOLLeaderboardScraper:
                     'Pick rate of champion': champion_pick_rate
             }
             champions.append(self.ex)
+        self.driver_stats.quit()  
         return champions
-        self.self.driver_stats.quit()    
+          
 
     def get_champion_wiki(self, name):
             # Open new driver to LOL wiki page to get individual champion stats
@@ -65,11 +66,10 @@ class LOLLeaderboardScraper:
                     # Columns 0 and 2 are category names and 1 and 3 are values
                     self.ex[it[0]] = it[1]
                     self.ex[it[2]] = it[3]
-            return wiki
             self.df = self.df.append(self.ex, ignore_index=True)
             driver_wiki.quit()    
             print(self.ex)
-            df.to_csv('data_test_2.csv') 
+            self.df.to_csv('data_test_2.csv') 
 
     def scrape(self):
         champions = self.get_stats()
