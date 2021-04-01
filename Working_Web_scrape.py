@@ -1,3 +1,4 @@
+#%%
 import sys 
 from selenium import webdriver
 from time import sleep
@@ -10,14 +11,14 @@ class LOLLeaderboardScraper:
     def __init__(self):
         self.driver_stats = webdriver.Chrome('./chromedriver')
         self.driver_stats.get('https://blitz.gg/lol/champions/overview')
-        self.df = pd.DataFrame()
+        self.champions = []
 
     def get_stats(self):    
-        sleep(5)
+        sleep(10)
         # Scrappin from blitz.gg website to get champion info
         items = self.driver_stats.find_elements_by_xpath("//div[contains(@class,'champion-row')]")
         # Creating pandas dataframe to save code later
-        champions = []
+        
         # From bliz.gg search the table specifically for the info we want and save it to a dictionary
         for item in items:
             role = item.find_element_by_xpath("div[2]/*[local-name()='svg']/*[local-name()='title']").get_attribute('innerHTML')
@@ -31,7 +32,7 @@ class LOLLeaderboardScraper:
             with open(f'image_{name}.jpg', 'wb') as handler:
                 handler.write(img_data)
 
-            self.ex = {
+            ex = {
                     'Role of champion': role,
                     'Image of champion': img,
                     'Name of champion': name,
@@ -39,15 +40,16 @@ class LOLLeaderboardScraper:
                     'Ban rate of champion': champion_ban_rate,
                     'Pick rate of champion': champion_pick_rate
             }
-            champions.append(self.ex)
-        self.driver_stats.quit()  
-        return champions
+            self.champions.append(ex)
+        self.driver_stats.quit()
           
 
     def get_champion_wiki(self, name):
             # Open new driver to LOL wiki page to get individual champion stats
             driver_wiki = webdriver.Chrome('./chromedriver')
             driver_wiki.get('https://leagueoflegends.fandom.com/wiki/{}/LoL'.format(name))
+            #Appends to dictionaries with the same champion name
+            champs = list(filter(lambda x: x['Name of champion']==name, self.champions))
             while True:
                 try:
                     driver_wiki.find_element_by_class_name('NN0_TB_DIsNmMHgJWgT7U.XHcr6qf5Sub2F2zBJ53S_').click()
@@ -64,18 +66,22 @@ class LOLLeaderboardScraper:
                 # Only wanting columns of length > 4 since that has info we want
                 if len(it) > 3:
                     # Columns 0 and 2 are category names and 1 and 3 are values
-                    self.ex[it[0]] = it[1]
-                    self.ex[it[2]] = it[3]
-            self.df = self.df.append(self.ex, ignore_index=True)
+                    for champ in champs:
+                        champ[it[0]] = it[1]
+                        champ[it[2]] = it[3]
+            
             driver_wiki.quit()    
-            print(self.ex)
-            self.df.to_csv('data_test_2.csv') 
+            
+            
 
     def scrape(self):
-        champions = self.get_stats()
-        for champ in champions:
+        self.get_stats()
+        for champ in self.champions:
             self.get_champion_wiki(champ['Name of champion'])
-
+        df = pd.DataFrame(self.champions)
+        df.to_csv('data_test_2.csv') 
 
 lol_scraper = LOLLeaderboardScraper()
 lol_scraper.scrape()
+
+# %%
