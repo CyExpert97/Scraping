@@ -1,3 +1,6 @@
 chromedriver.exe
 *.csv
 *.jpg
+data_clean.py
+regression.ipynb
+*.PNG
