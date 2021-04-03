@@ -3,4 +3,3 @@ chromedriver.exe
 *.jpg
 data_clean.py
 regression.ipynb
-*.PNG
