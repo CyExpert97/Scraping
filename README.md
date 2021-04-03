@@ -26,6 +26,6 @@ To make sure that you collected all your data you can view your results in excel
 3. Navigate to the directory of "data_test_2.csv" or "top_100.csv"
 4. When you import it make sure to change the file origin to "Unicode (UTF-8)" as shown below
 
-![alt text](readme_1.PNG)
+
 
 If done successfully you should have the data imported into Excel. 
