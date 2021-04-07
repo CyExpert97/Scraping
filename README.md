@@ -20,3 +20,7 @@ Note that for leaderboards_webscrape.py the xpaths for the variables might chang
 # How to view data:
 
 The simplest way is by cloning the repository into vscode and viewing the data via the Excel Viewer Extension.
+
+# Example data from scrape
+
+![](Sample_data.PNG)
