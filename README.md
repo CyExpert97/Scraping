@@ -24,3 +24,7 @@ The simplest way is by cloning the repository into vscode and viewing the data v
 # Example data from scrape
 
 ![](Sample_data.PNG)
+
+As you can see from the data there are alot of values that are in string form and not float values. The will require some data cleaing to get the data into float values.
+
+To see the next stage of the project (cleaning data and fitting it to a lenear regression model) you can follow this link https://github.com/CyExpert97/Project_1.5
